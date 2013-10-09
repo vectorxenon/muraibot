@@ -3,7 +3,6 @@
 おっさんはビールで起動する
 """
 
-import random
 import muraibot
 
 
@@ -28,7 +27,6 @@ def main():
     nickname = sys.argv[3]
     password = sys.argv[4] if len(sys.argv) == 5 else None
 
-    random.seed(None)
     murai = muraibot.MuraiBot(channel, nickname, server, port, password)
     murai.start()
 

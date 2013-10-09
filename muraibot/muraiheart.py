@@ -11,7 +11,7 @@ class MuraiBot(irc.bot.SingleServerIRCBot):
     def __init__(self, channel, nickname, server, port=6667, password=None):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port, password)], nickname, nickname)
         self.channel = channel
-        self.brain = muraibot.MuraiBrain()
+        self.brain = muraibot.MuraiBrain(self.connection, channel)
 
     def on_nicknameinuse(self, conn, event):
         conn.nick(conn.get_nickname() + "_")
@@ -24,9 +24,5 @@ class MuraiBot(irc.bot.SingleServerIRCBot):
         :type conn: irc.client.ServerConnection
         :type event: irc.client.Event
         """
-        self.brain.think(conn, event)
-
-    def ossan_say(self, msg, percent=100):
-        if random.random() * 100 < percent:
-            self.connection.privmsg(self.channel, msg)
+        self.brain.think(event)
 
