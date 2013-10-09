@@ -2,8 +2,10 @@
 """
 おっさんはビールで起動する
 """
+import os
 
 import muraibot
+import daemonize
 
 
 def main():
@@ -28,7 +30,10 @@ def main():
     password = sys.argv[4] if len(sys.argv) == 5 else None
 
     murai = muraibot.MuraiBot(channel, nickname, server, port, password)
-    murai.start()
+    daemon = daemonize.Daemonize(app="muraibot",
+                                 pid=os.path.abspath(os.path.dirname(__file__) + '/muraibot.pid'),
+                                 action=murai.start)
+    daemon.start()
 
 
 if __name__ == "__main__":
