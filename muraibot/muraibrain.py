@@ -54,7 +54,8 @@ class MuraiBrain():
                          'やかましいわw',
                          'あーそうだよ？',
                          'はいはい、そーですよっ',
-                         'んー？なんだい？'
+                         'んー？なんだい？',
+                         'ひゃひゃひゃww んなこたぁないw'
             ]
         else:
             responses = ['はい、現場のおっさんです',
@@ -95,4 +96,14 @@ class MuraiBrain():
     def repponse_congratulate(self):
         responses = ['ありがと…ってちゃうわｗ', 'おやおや？誰かさんがおめでたいのかい？']
         self.ossan_speek(responses, 40)
+
+    def greedy_greeting(self, target):
+        self.connection.mode(target, '+o')
+        greetings = [
+            '%s、おはよー',
+            'おはよー、%sくん。今日もゴキゲンかい？',
+            'おいーっす %s'
+        ]
+        self.ossan_speek([s % target for s in greetings], 90)
+        pass
 

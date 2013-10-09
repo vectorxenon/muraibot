@@ -26,3 +26,10 @@ class MuraiBot(irc.bot.SingleServerIRCBot):
         """
         self.brain.think(event)
 
+    def on_join(self, conn, event):
+        """
+        :type conn: irc.client.ServerConnection
+        :type event: irc.client.Event
+        """
+        if conn.get_nickname() != event.source.nick:
+            self.brain.greedy_greeting(event.source.nick)
