@@ -17,23 +17,36 @@ class MuraiBrain():
 
     def ossan_speek(self, message, percent=100):
         """
-        :type message: str
+        :type message: str or list of str
         :type percent: int
-        :param message:
+        :param message: str or list of str
         :param percent:
         """
         time.sleep(random.randrange(start=1, stop=3))
         if random.random() * 100 < percent:
-            self.connection.privmsg(self.channel, message)
+            self.connection.privmsg(self.channel, random.choice(message) if isinstance(message, list) else message)
 
     def think(self, event):
         """
         :type event: irc.client.Event
         :param event:
         """
+        message = event.arguments[0]
         random.seed(None)
-        if re.search(r'おっさん|へんたい|変態|ossan', event.arguments[0], re.I):
-            self.response_called(event.arguments[0])
+        if re.search(r'おっさん|へんたい|変態|ossan', message, re.I):
+            self.response_called(message)
+        elif re.search(r'(い|行)きま(すか|せう|しょ(う|か))', message):
+            self.response_gogogo()
+        elif re.search(r'め(っ)?し(ー)?', message):
+            self.response_hungry()
+        elif re.search(r'お(っ)?つ(かれ)?(ー)?|(帰|かえ)(ー)?る|ots?(ts?)?u-*', message, re.I):
+            self.response_rtb()
+        elif re.search(r'^もう.*ゴールして(も)?いい', message):
+            self.response_graduation_from_life()
+        elif re.search(r'^イザル|ザイ(ー)?ル$', message):
+            self.response_nonsense()
+        elif re.search(r'おめでと|オメデト', message, re.I):
+            self.repponse_congratulate()
 
     def response_called(self, message):
         if re.search(r'の(？|\?)$', message):
@@ -51,4 +64,35 @@ class MuraiBrain():
                          'それじゃ、お邪魔様でした',
                          'おいおい、酷い言い草じゃないか'
             ]
-        self.ossan_speek(random.choice(responses), 90)
+        self.ossan_speek(responses, 90)
+
+    def response_gogogo(self):
+        self.ossan_speek("ざいざいざい", 50)
+
+    def response_hungry(self):
+        self.ossan_speek("しめしめし", 50)
+
+    def response_rtb(self):
+        responses = ["オレはまだゴールしたくねぇんだよ",
+                     "おいおい、もう帰っちゃうのかい？",
+                     "まだまだ夜はこれからよ",
+                     "ほいじゃ、おつかれさんね",
+                     "おつかれね",
+                     "おっさんもそろそろ帰っちゃうよっ"
+        ]
+        self.ossan_speek(responses, 50)
+
+    def response_graduation_from_life(self):
+        responses = ['オレはまだゴールしたくねぇんだよ',
+                     'あきらめんなよ！',
+                     'もう眠たいよパトラッシュ']
+        self.ossan_speek(responses, 70)
+
+    def response_nonsense(self):
+        responses = ['いざいざ', 'しめじめし', 'ザイル', 'イザル']
+        self.ossan_speek(responses, 50)
+
+    def repponse_congratulate(self):
+        responses = ['ありがと…ってちゃうわｗ', 'おやおや？誰かさんがおめでたいのかい？']
+        self.ossan_speek(responses, 40)
+
