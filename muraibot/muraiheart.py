@@ -26,7 +26,7 @@ class MuraiBot(irc.bot.SingleServerIRCBot):
         """
         self.brain.think(conn, event)
 
-    def ossan_say(self, msg, percent):
+    def ossan_say(self, msg, percent=100):
         if random.random() * 100 < percent:
             self.connection.privmsg(self.channel, msg)
 
