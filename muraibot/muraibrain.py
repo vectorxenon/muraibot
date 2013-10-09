@@ -98,7 +98,7 @@ class MuraiBrain():
         self.ossan_speek(responses, 40)
 
     def greedy_greeting(self, target):
-        self.connection.mode(target, '+o')
+        self.connection.mode(self.channel, '+o ' + target)
         greetings = [
             '%s、おはよー',
             'おはよー、%sくん。今日もゴキゲンかい？',
